@@ -23,8 +23,8 @@ def main():
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
     asteroidfield = AsteroidField()
     
-    
-    while True:
+    lives = 3
+    while lives > 0:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
@@ -33,9 +33,15 @@ def main():
         # Check for collisions with asteroids
         for asteroid in asteroids:
             if player.collide(asteroid):
-                print("Game Over!")
-                sys.exit()
-                # Handle collision (e.g., reduce player health, remove asteroid, etc.)
+                print("Life Lost!")
+                lives -= 1
+                player.kill()
+                for asteroid in asteroids:
+                    asteroid.kill()
+                for shot in shots:
+                    shot.kill()
+                player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+                asteroidfield = AsteroidField()
 
         # Check for collisions between shots and asteroids
             for shot in shots:
@@ -43,7 +49,6 @@ def main():
                     asteroid.split()
                     shot.kill()
                         
-        
         screen.fill("black")  # Fill the screen with black
         
         for obj in drawable:
@@ -51,6 +56,8 @@ def main():
         
         pygame.display.flip()
         dt = clock.tick(60) / 1000 # Convert milliseconds to seconds
+
+    print("Game Over!")
 
         
 
