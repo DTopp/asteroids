@@ -37,6 +37,13 @@ def main():
                 sys.exit()
                 # Handle collision (e.g., reduce player health, remove asteroid, etc.)
 
+        # Check for collisions between shots and asteroids
+            for shot in shots:
+                if shot.collide(asteroid):
+                    asteroid.split()
+                    shot.kill()
+                        
+        
         screen.fill("black")  # Fill the screen with black
         
         for obj in drawable:
